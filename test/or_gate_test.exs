@@ -54,4 +54,8 @@ defmodule OrGateTest do
              }
     end)
   end
+
+  test "exec/1 returns false on empty list input" do
+    assert OrGate.exec([]) == {:ok, false}
+  end
 end
