@@ -24,3 +24,6 @@ logic_gates-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# My additions
+/.elixir_ls
