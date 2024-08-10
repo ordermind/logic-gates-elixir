@@ -1,21 +1,21 @@
 defmodule OrGate do
-  @spec run(list()) :: {:ok, boolean()} | {:error, binary()}
-  def run(input)
+  @spec exec(list()) :: {:ok, boolean()} | {:error, binary()}
+  def exec(input)
 
-  def run([head | tail]) when is_boolean(head) do
+  def exec([head | tail]) when is_boolean(head) do
     case head do
       true -> {:ok, true}
-      false -> run(tail)
+      false -> exec(tail)
     end
   end
 
-  def run([head | tail]) when is_function(head) do
+  def exec([head | tail]) when is_function(head) do
     case head.() do
       {:ok, true} ->
         {:ok, true}
 
       {:ok, false} ->
-        run(tail)
+        exec(tail)
 
       {:error, reason} ->
         {:error, reason}
@@ -26,11 +26,16 @@ defmodule OrGate do
     end
   end
 
-  def run([]) do
+  def exec([head | _]) do
+    {:error,
+     "Each input value for an OR gate must be either a function or a boolean. Current value: #{inspect(head)}"}
+  end
+
+  def exec([]) do
     {:ok, false}
   end
 
-  def run(input) do
+  def exec(input) do
     {:error, "The value of an OR gate must be a list. Current value: #{inspect(input)}"}
   end
 end
