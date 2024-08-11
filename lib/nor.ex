@@ -1,14 +1,11 @@
 defmodule LogicGates.Nor do
   @doc ~S"""
   Executes a NOR gate on an input list. The list may contain either boolean values or anonymous functions that return
-  either :ok and a boolean, or :error and a reason (see typespec).
+  either :ok and a boolean, or :error and a reason.
 
   A NOR gate returns true if all of the input values evaluate to false. Otherwise it returns false.
 
-  Just like the OR gate, the technical implementation means that errors in function values are not always discovered:
-
-  iex> LogicGates.Nor.exec([true, fn -> {:error, "Test error"} end])
-  {:ok, :false}
+  If any input value function returns an error on evaluation, this function will return an error.
 
   ## Truth table with three input values
 

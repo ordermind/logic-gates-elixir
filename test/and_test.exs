@@ -17,12 +17,19 @@ defmodule AndTest do
       assert(
         And.exec(invalid_input) ==
           {:error,
-           "Error in LogicGates.And.exec/1: the parameter to the function must be a list. Current parameter: #{inspect(invalid_input)}"}
+           "Error in LogicGates.And.exec/1: The parameter to the function must be a list. Current parameter: #{inspect(invalid_input)}"}
       )
     end)
   end
 
-  test "exec/1 returns error on invalid type of value in input list" do
+  test "exec/1 returns an error on empty list input" do
+    assert(
+      And.exec([]) ==
+        {:error, "Error in LogicGates.And.exec/1: An AND gate requires at least one input value."}
+    )
+  end
+
+  test "exec/1 returns error on invalid type of input value" do
     [
       "false",
       %{true: false},
@@ -33,9 +40,9 @@ defmodule AndTest do
     ]
     |> Enum.each(fn invalid_value ->
       assert(
-        And.exec([invalid_value]) ==
+        And.exec([true, invalid_value]) ==
           {:error,
-           "Error in LogicGates.And.exec/1: each input value for an AND gate must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
+           "Error in LogicGates.And.exec/1: Each input value must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
       )
     end)
   end
@@ -54,24 +61,16 @@ defmodule AndTest do
       assert(
         And.exec([fn -> invalid_return_value end]) ==
           {:error,
-           "Error in LogicGates.And.exec/1: when a function is passed as an input value to an AND gate, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
+           "Error in LogicGates.And.exec/1: When a function is passed as an input value, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
       )
     end)
   end
 
   test "exec/1 returns an error when an error is return from a function input value" do
     assert(
-      And.exec([true, fn -> {:error, "Test error"} end]) ==
+      And.exec([false, fn -> {:error, "Test error"} end]) ==
         {:error,
-         "Error in LogicGates.And.exec/1: an error was returned by a function input value: \"Test error\""}
-    )
-  end
-
-  test "exec/1 returns an error on empty list input" do
-    assert(
-      And.exec([]) ==
-        {:error,
-         "Error in LogicGates.And.exec/1: the function was called with an empty list as parameter, so there are no input values to evaluate."}
+         "Error in LogicGates.And.exec/1: An error was returned by a function input value: \"Test error\""}
     )
   end
 

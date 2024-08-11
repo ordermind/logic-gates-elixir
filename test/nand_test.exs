@@ -17,12 +17,20 @@ defmodule NandTest do
       assert(
         Nand.exec(invalid_input) ==
           {:error,
-           "Error in LogicGates.Nand.exec/1: the parameter to the function must be a list. Current parameter: #{inspect(invalid_input)}"}
+           "Error in LogicGates.Nand.exec/1: The parameter to the function must be a list. Current parameter: #{inspect(invalid_input)}"}
       )
     end)
   end
 
-  test "exec/1 returns error on invalid type of value in input list" do
+  test "exec/1 returns an error on empty list input" do
+    assert(
+      Nand.exec([]) ==
+        {:error,
+         "Error in LogicGates.Nand.exec/1: An NAND gate requires at least one input value."}
+    )
+  end
+
+  test "exec/1 returns error on invalid type of input value" do
     [
       "false",
       %{true: false},
@@ -33,9 +41,9 @@ defmodule NandTest do
     ]
     |> Enum.each(fn invalid_value ->
       assert(
-        Nand.exec([invalid_value]) ==
+        Nand.exec([true, invalid_value]) ==
           {:error,
-           "Error in LogicGates.Nand.exec/1: each input value for an NAND gate must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
+           "Error in LogicGates.Nand.exec/1: Each input value must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
       )
     end)
   end
@@ -54,24 +62,16 @@ defmodule NandTest do
       assert(
         Nand.exec([fn -> invalid_return_value end]) ==
           {:error,
-           "Error in LogicGates.Nand.exec/1: when a function is passed as an input value to an NAND gate, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
+           "Error in LogicGates.Nand.exec/1: When a function is passed as an input value, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
       )
     end)
   end
 
   test "exec/1 returns an error when an error is return from a function input value" do
     assert(
-      Nand.exec([true, fn -> {:error, "Test error"} end]) ==
+      Nand.exec([false, fn -> {:error, "Test error"} end]) ==
         {:error,
-         "Error in LogicGates.Nand.exec/1: an error was returned by a function input value: \"Test error\""}
-    )
-  end
-
-  test "exec/1 returns an error on empty list input" do
-    assert(
-      Nand.exec([]) ==
-        {:error,
-         "Error in LogicGates.Nand.exec/1: the function was called with an empty list as parameter, so there are no input values to evaluate."}
+         "Error in LogicGates.Nand.exec/1: An error was returned by a function input value: \"Test error\""}
     )
   end
 
