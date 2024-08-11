@@ -27,3 +27,4 @@ logic_gates-*.tar
 
 # My additions
 /.elixir_ls
+/priv
