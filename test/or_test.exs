@@ -1,9 +1,9 @@
-defmodule OrGateTest do
+defmodule OrTest do
   use ExUnit.Case
   doctest LogicGates.Or
   alias LogicGates.Or
 
-  test "exec/1 returns error on invalid input type" do
+  test "exec/1 returns error on invalid parameter type" do
     [
       true,
       "false",
@@ -17,7 +17,7 @@ defmodule OrGateTest do
       assert(
         Or.exec(invalid_input) ==
           {:error,
-           "Error in LogicGates.Or.exec/1: the value of an OR gate must be a list. Current value: #{inspect(invalid_input)}"}
+           "Error in LogicGates.Or.exec/1: the parameter to the function must be a list. Current parameter: #{inspect(invalid_input)}"}
       )
     end)
   end
@@ -61,21 +61,87 @@ defmodule OrGateTest do
 
   test "exec/1 returns an error when an error is return from a function input value" do
     assert(
-      Or.exec([fn -> {:error, "Test error"} end]) ==
+      Or.exec([false, fn -> {:error, "Test error"} end]) ==
         {:error,
          "Error in LogicGates.Or.exec/1: an error was returned by a function input value: \"Test error\""}
     )
   end
 
-  test "exec/1 returns false on empty list input" do
-    assert Or.exec([]) == {:ok, false}
+  test "exec/1 returns an error on empty list input" do
+    assert(
+      Or.exec([]) ==
+        {:error,
+         "Error in LogicGates.Or.exec/1: the function was called with an empty list as parameter, so there are no input values to evaluate."}
+    )
   end
 
-  test "exec/1 boolean input" do
+  test "exec/1 boolean 1 input value" do
+    [
+      {[false], {:ok, false}},
+      {[true], {:ok, true}}
+    ]
+    |> Enum.each(fn {input_values, expected_output} ->
+      assert(Or.exec(input_values) == expected_output)
+    end)
+  end
+
+  test "exec/1 boolean 2 input values" do
+    [
+      {[false, false], {:ok, false}},
+      {[false, true], {:ok, true}},
+      {[true, false], {:ok, true}},
+      {[true, true], {:ok, true}}
+    ]
+    |> Enum.each(fn {input_values, expected_output} ->
+      assert(Or.exec(input_values) == expected_output)
+    end)
+  end
+
+  test "exec/1 boolean 3 input values" do
     # This is covered by the doctests
   end
 
-  test "exec/1 function input" do
+  test "exec/1 function 1 input value" do
+    [
+      {[false], {:ok, false}},
+      {[true], {:ok, true}}
+    ]
+    |> Enum.each(fn {return_values, expected_output} ->
+      assert(
+        Or.exec(
+          Enum.map(
+            return_values,
+            fn return_value ->
+              fn -> {:ok, return_value} end
+            end
+          )
+        ) == expected_output
+      )
+    end)
+  end
+
+  test "exec/1 function 2 input values" do
+    [
+      {[false, false], {:ok, false}},
+      {[false, true], {:ok, true}},
+      {[true, false], {:ok, true}},
+      {[true, true], {:ok, true}}
+    ]
+    |> Enum.each(fn {return_values, expected_output} ->
+      assert(
+        Or.exec(
+          Enum.map(
+            return_values,
+            fn return_value ->
+              fn -> {:ok, return_value} end
+            end
+          )
+        ) == expected_output
+      )
+    end)
+  end
+
+  test "exec/1 function 3 input values" do
     [
       {[false, false, false], {:ok, false}},
       {[false, false, true], {:ok, true}},
@@ -97,6 +163,22 @@ defmodule OrGateTest do
           )
         ) == expected_output
       )
+    end)
+  end
+
+  test "exec/1 mixed input value types" do
+    [
+      {[false, fn -> {:ok, false} end, false], {:ok, false}},
+      {[false, fn -> {:ok, false} end, true], {:ok, true}},
+      {[false, fn -> {:ok, true} end, false], {:ok, true}},
+      {[false, fn -> {:ok, true} end, true], {:ok, true}},
+      {[true, fn -> {:ok, false} end, false], {:ok, true}},
+      {[true, fn -> {:ok, false} end, true], {:ok, true}},
+      {[true, fn -> {:ok, true} end, false], {:ok, true}},
+      {[true, fn -> {:ok, true} end, true], {:ok, true}}
+    ]
+    |> Enum.each(fn {input_values, expected_output} ->
+      assert(Or.exec(input_values) == expected_output)
     end)
   end
 end
