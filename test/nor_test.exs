@@ -97,7 +97,19 @@ defmodule NorTest do
   end
 
   test "exec/1 boolean 3 input values" do
-    # This is covered by the doctests
+    [
+      {[false, false, false], {:ok, true}},
+      {[false, false, true], {:ok, false}},
+      {[false, true, false], {:ok, false}},
+      {[false, true, true], {:ok, false}},
+      {[true, false, false], {:ok, false}},
+      {[true, false, true], {:ok, false}},
+      {[true, true, false], {:ok, false}},
+      {[true, true, true], {:ok, false}}
+    ]
+    |> Enum.each(fn {input_values, expected_output} ->
+      assert(Nor.exec(input_values) == expected_output)
+    end)
   end
 
   test "exec/1 function 1 input value" do

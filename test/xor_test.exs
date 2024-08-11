@@ -82,7 +82,15 @@ defmodule XorTest do
   end
 
   test "exec/1 boolean 2 input values" do
-    # This is covered by the doctests
+    [
+      {[false, false], {:ok, false}},
+      {[false, true], {:ok, true}},
+      {[true, false], {:ok, true}},
+      {[true, true], {:ok, false}}
+    ]
+    |> Enum.each(fn {input_values, expected_output} ->
+      assert(Xor.exec(input_values) == expected_output)
+    end)
   end
 
   test "exec/1 boolean 3 input values" do

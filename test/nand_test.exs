@@ -98,7 +98,19 @@ defmodule NandTest do
   end
 
   test "exec/1 boolean 3 input values" do
-    # This is covered by the doctests
+    [
+      {[false, false, false], {:ok, true}},
+      {[false, false, true], {:ok, true}},
+      {[false, true, false], {:ok, true}},
+      {[false, true, true], {:ok, true}},
+      {[true, false, false], {:ok, true}},
+      {[true, false, true], {:ok, true}},
+      {[true, true, false], {:ok, true}},
+      {[true, true, true], {:ok, false}}
+    ]
+    |> Enum.each(fn {input_values, expected_output} ->
+      assert(Nand.exec(input_values) == expected_output)
+    end)
   end
 
   test "exec/1 function 1 input value" do
