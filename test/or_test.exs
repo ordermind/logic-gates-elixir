@@ -1,7 +1,7 @@
 defmodule OrGateTest do
   use ExUnit.Case
-  doctest LogicGates.OrGate
-  alias LogicGates.OrGate
+  doctest LogicGates.Or
+  alias LogicGates.Or
 
   test "exec/1 returns error on invalid input type" do
     [
@@ -15,9 +15,9 @@ defmodule OrGateTest do
     ]
     |> Enum.each(fn invalid_input ->
       assert(
-        OrGate.exec(invalid_input) ==
+        Or.exec(invalid_input) ==
           {:error,
-           "Error in LogicGates.OrGate.exec/1: the value of an OR gate must be a list. Current value: #{inspect(invalid_input)}"}
+           "Error in LogicGates.Or.exec/1: the value of an OR gate must be a list. Current value: #{inspect(invalid_input)}"}
       )
     end)
   end
@@ -33,9 +33,9 @@ defmodule OrGateTest do
     ]
     |> Enum.each(fn invalid_value ->
       assert(
-        OrGate.exec([invalid_value]) ==
+        Or.exec([invalid_value]) ==
           {:error,
-           "Error in LogicGates.OrGate.exec/1: each input value for an OR gate must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
+           "Error in LogicGates.Or.exec/1: each input value for an OR gate must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
       )
     end)
   end
@@ -52,23 +52,23 @@ defmodule OrGateTest do
     ]
     |> Enum.each(fn invalid_return_value ->
       assert(
-        OrGate.exec([fn -> invalid_return_value end]) ==
+        Or.exec([fn -> invalid_return_value end]) ==
           {:error,
-           "Error in LogicGates.OrGate.exec/1: when a function is passed as an input value to an OR gate, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
+           "Error in LogicGates.Or.exec/1: when a function is passed as an input value to an OR gate, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
       )
     end)
   end
 
   test "exec/1 returns an error when an error is return from a function input value" do
     assert(
-      OrGate.exec([fn -> {:error, "Test error"} end]) ==
+      Or.exec([fn -> {:error, "Test error"} end]) ==
         {:error,
-         "Error in LogicGates.OrGate.exec/1: an error was returned by a function input value: \"Test error\""}
+         "Error in LogicGates.Or.exec/1: an error was returned by a function input value: \"Test error\""}
     )
   end
 
   test "exec/1 returns false on empty list input" do
-    assert OrGate.exec([]) == {:ok, false}
+    assert Or.exec([]) == {:ok, false}
   end
 
   test "exec/1 boolean input" do
@@ -88,7 +88,7 @@ defmodule OrGateTest do
     ]
     |> Enum.each(fn {return_values, expected_output} ->
       assert(
-        OrGate.exec(
+        Or.exec(
           Enum.map(
             return_values,
             fn return_value ->
