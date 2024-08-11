@@ -35,7 +35,7 @@ defmodule LogicGates.MixProject do
     [
       name: "logic_gates",
       # These are the default files included in the package
-      files: ~w(.github lib test .formatter.exs mix.exs mix.lock README* LICENSE*),
+      files: ~w(lib mix.exs README* LICENSE*),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/ordermind/logic-gates-elixir"}
     ]
