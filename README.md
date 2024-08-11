@@ -1,6 +1,6 @@
-# LogicGates
+# Logic Gates
 
-**TODO: Add description**
+This is a generic library that provides logic gates for use by other libraries.
 
 ## Installation
 
@@ -18,4 +18,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/logic_gates>.
-
