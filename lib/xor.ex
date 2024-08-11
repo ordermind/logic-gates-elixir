@@ -7,8 +7,8 @@ defmodule LogicGates.Xor do
 
   An XOR gate returns true if one input value evaluates to true and the other input value evaluates to false. If the number of input values for the XOR gate is greater than 2, it behaves as a cascade of 2-input gates and performs an odd-parity function. In effect that means that the output of the XOR gate is true if the number of true input values is odd, otherwise the output is false. This can lead to some confusion in cases such as this:
 
-  iex> LogicGates.Xor.exec([true, true, true])
-  {:ok, :true}
+      iex> LogicGates.Xor.exec([true, true, true])
+      {:ok, :true}
 
   For that reason it's recommended to just stick to two input values in most cases.
 
