@@ -1,7 +1,7 @@
 defmodule LogicGates.Or do
   @doc ~S"""
   Executes an OR gate on an input list. The list may contain either boolean values or anonymous functions that return
-  either :ok and a boolean, or :error and a reason string or atom.
+  either :ok and a boolean, or :error and a reason (see typespec).
 
   An OR gate returns true if at least one of the input values evaluates to true. Otherwise it returns false.
 
@@ -38,7 +38,8 @@ defmodule LogicGates.Or do
       {:ok, :true}
 
   """
-  @spec exec(list()) :: {:ok, boolean()} | {:error, binary()}
+  @spec exec(list(boolean() | (function() -> {:ok, boolean()} | {:error, any()}))) ::
+          {:ok, boolean()} | {:error, binary()}
   def exec(input)
 
   def exec([head | tail]) do

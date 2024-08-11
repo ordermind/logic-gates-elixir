@@ -1,7 +1,7 @@
 defmodule LogicGates.Nand do
   @doc ~S"""
   Executes a NAND gate on an input list. The list may contain either boolean values or anonymous functions that return
-  either :ok and a boolean, or :error and a reason string or atom.
+  either :ok and a boolean, or :error and a reason (see typespec).
 
   A NAND gate returns true if at least one of the input values evaluates to false. Otherwise it returns false.
 
@@ -40,7 +40,8 @@ defmodule LogicGates.Nand do
 
   alias LogicGates.And
 
-  @spec exec(list()) :: {:ok, boolean()} | {:error, binary()}
+  @spec exec(list(boolean() | (function() -> {:ok, boolean()} | {:error, any()}))) ::
+          {:ok, boolean()} | {:error, binary()}
   def exec(input) do
     case And.exec(input) do
       {:ok, output} ->

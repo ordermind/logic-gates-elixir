@@ -1,7 +1,7 @@
 defmodule LogicGates.And do
   @doc ~S"""
   Executes an AND gate on an input list. The list may contain either boolean values or anonymous functions that return
-  either :ok and a boolean, or :error and a reason string or atom.
+  either :ok and a boolean, or :error and a reason (see typespec).
 
   An AND gate returns true if all of the input values evaluate to true. Otherwise it returns false.
 
@@ -38,7 +38,8 @@ defmodule LogicGates.And do
       {:ok, :true}
 
   """
-  @spec exec(list()) :: {:ok, boolean()} | {:error, binary()}
+  @spec exec(list(boolean() | (function() -> {:ok, boolean()} | {:error, any()}))) ::
+          {:ok, boolean()} | {:error, binary()}
   def exec(input)
 
   def exec([head | tail]) do

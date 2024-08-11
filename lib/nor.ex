@@ -1,7 +1,7 @@
 defmodule LogicGates.Nor do
   @doc ~S"""
   Executes a NOR gate on an input list. The list may contain either boolean values or anonymous functions that return
-  either :ok and a boolean, or :error and a reason string or atom.
+  either :ok and a boolean, or :error and a reason (see typespec).
 
   A NOR gate returns true if all of the input values evaluate to false. Otherwise it returns false.
 
@@ -40,7 +40,8 @@ defmodule LogicGates.Nor do
 
   alias LogicGates.Or
 
-  @spec exec(list()) :: {:ok, boolean()} | {:error, binary()}
+  @spec exec(list(boolean() | (function() -> {:ok, boolean()} | {:error, any()}))) ::
+          {:ok, boolean()} | {:error, binary()}
   def exec(input) do
     case Or.exec(input) do
       {:ok, output} ->
