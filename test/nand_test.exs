@@ -6,6 +6,7 @@ defmodule NandTest do
   test "exec/1 returns error on invalid parameter type" do
     [
       true,
+      fn -> false end,
       "false",
       %{true: false},
       {true, false},
