@@ -15,4 +15,4 @@ jobs:
           elixir-version: '1.17.2'
       - uses: cucumber/action-publish-hex@v1.0.0
         with:
-          hex-api-token: ${{ secrets.HEX_API_KEY }}
+          hex-api-key: ${{ secrets.HEX_API_KEY }}
