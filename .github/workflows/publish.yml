@@ -5,12 +5,14 @@ on:
 
 jobs:
   publish:
+    name: Publish to hex
     runs-on: ubuntu-latest
     steps:
-      - name: Check out
-        uses: actions/checkout@v2
-
-      - name: Publish package to hex.pm
-        uses: wesleimp/action-publish-hex@v1
-        env:
-          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+      - uses: actions/checkout@v3
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '27.0'
+          elixir-version: '1.17.2'
+      - uses: cucumber/action-publish-hex@v1.0.0
+        with:
+          hex-api-token: ${{ secrets.HEX_API_KEY }}
