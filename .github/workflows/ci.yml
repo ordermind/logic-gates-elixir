@@ -74,6 +74,10 @@ jobs:
     - name: Check Formatting
       run: mix format --check-formatted
 
+    # Step: Run Dialyzer
+    - name: Run Dialyzer
+      run: mix dialyzer
+
     # Step: Execute the tests.
     - name: Run tests
       run: mix test

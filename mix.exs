@@ -21,7 +21,7 @@ defmodule LogicGates.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:dialyxir, "~> 1.3", only: [:dialyzer], runtime: false}
+      {:dialyxir, "~> 1.3", only: [:test], runtime: false}
     ]
   end
 end
