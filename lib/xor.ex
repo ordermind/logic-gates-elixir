@@ -43,7 +43,8 @@ defmodule LogicGates.Xor do
   end
 
   def exec(input) when length(input) < 2 do
-    {:error, "LogicGates.Xor.exec/1 requires the input list to contain at least two elements. Current parameter: #{inspect(input)}"}
+    {:error,
+     "LogicGates.Xor.exec/1 requires the input list to contain at least two elements. Current parameter: #{inspect(input)}"}
   end
 
   def exec(input) do

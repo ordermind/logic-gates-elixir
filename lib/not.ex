@@ -33,10 +33,11 @@ defmodule LogicGates.Not do
       {:ok, value} ->
         {:ok, !value}
 
-        {:error, reason} when is_binary(reason) ->
-          {:error, reason}
+      {:error, reason} when is_binary(reason) ->
+        {:error, reason}
 
-        {:error, reason} -> {:error, inspect(reason)}
+      {:error, reason} ->
+        {:error, inspect(reason)}
 
       other ->
         {:error,
