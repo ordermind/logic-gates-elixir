@@ -19,7 +19,7 @@ defmodule LogicGates.Not do
   """
   @spec exec(
           boolean()
-          | (function() -> {:ok, boolean()} | {:error, any()})
+          | (-> {:ok, boolean()} | {:error, any()})
         ) ::
           {:ok, boolean()} | {:error, binary()}
   def exec(input)

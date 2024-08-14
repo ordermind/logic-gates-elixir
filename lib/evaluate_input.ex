@@ -3,7 +3,7 @@ defmodule LogicGates.EvaluateInput do
 
   # Iterates and evaluates the input and counts the true and false values
   @spec count_values(
-          list(boolean() | (function() -> {:ok, boolean()} | {:error, any()})),
+          list(boolean() | (-> {:ok, boolean()} | {:error, any()})),
           binary()
         ) ::
           {:ok, %{true: integer(), false: integer()}} | {:error, binary()}

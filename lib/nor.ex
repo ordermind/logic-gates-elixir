@@ -37,7 +37,7 @@ defmodule LogicGates.Nor do
 
   alias LogicGates.Or
 
-  @spec exec(list(boolean() | (function() -> {:ok, boolean()} | {:error, any()}))) ::
+  @spec exec([boolean() | (-> {:ok, boolean()} | {:error, any()})]) ::
           {:ok, boolean()} | {:error, binary()}
   def exec(input) do
     case Or.exec(input) do

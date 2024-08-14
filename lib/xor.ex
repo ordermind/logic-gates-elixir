@@ -33,7 +33,7 @@ defmodule LogicGates.Xor do
   require Integer
   alias LogicGates.EvaluateInput
 
-  @spec exec(list(boolean() | (function() -> {:ok, boolean()} | {:error, any()}))) ::
+  @spec exec([boolean() | (-> {:ok, boolean()} | {:error, any()})]) ::
           {:ok, boolean()} | {:error, binary()}
   def exec(input)
 
