@@ -42,19 +42,13 @@ defmodule LogicGates.MixProject do
   end
 
   defp description() do
-    "This is a generic library that provides logic gates for use by other libraries."
+    "Provides logic gates such as AND and OR to be used by other libraries."
   end
 
   defp dialyzer() do
     [
       # Put the project-level PLT in the priv/ directory (instead of the default _build/ location)
       plt_file: {:no_warn, "priv/plts/project.plt"}
-
-      # The above is equivalent to:
-      # plt_local_path: "priv/plts/project.plt"
-
-      # You could also put the core Erlang/Elixir PLT into the priv/ directory like so:
-      # plt_core_path: "priv/plts/core.plt"
     ]
   end
 end
