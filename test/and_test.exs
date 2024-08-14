@@ -32,6 +32,7 @@ defmodule AndTest do
 
   test "exec/1 returns error on invalid type of input value" do
     [
+      [false],
       "false",
       %{true: false},
       {true, false},
@@ -43,7 +44,7 @@ defmodule AndTest do
       assert(
         And.exec([true, invalid_value]) ==
           {:error,
-           "Each input value to LogicGates.And.exec/1 must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
+           "Each element in the input list for LogicGates.And.exec/1 must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
       )
     end)
   end
@@ -67,7 +68,7 @@ defmodule AndTest do
     end)
   end
 
-  test "exec/1 returns an error when an error is return from a function input value" do
+  test "exec/1 returns an error when an error is returned from a function input value" do
     assert(
       And.exec([false, fn -> {:error, "Test error"} end]) ==
         {:error, "Test error"}

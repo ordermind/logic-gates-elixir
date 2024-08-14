@@ -18,7 +18,7 @@ defmodule OrTest do
       assert(
         Or.exec(invalid_input) ==
           {:error,
-           "Error in LogicGates.Or.exec/1: The parameter to the function must be a list. Current parameter: #{inspect(invalid_input)}"}
+           "The parameter to LogicGates.Or.exec/1 must be a list. Current parameter: #{inspect(invalid_input)}"}
       )
     end)
   end
@@ -26,12 +26,13 @@ defmodule OrTest do
   test "exec/1 returns an error on empty list input" do
     assert(
       Or.exec([]) ==
-        {:error, "Error in LogicGates.Or.exec/1: An OR gate requires at least one input value."}
+        {:error, "LogicGates.Or.exec/1 requires the input list to contain at least one element."}
     )
   end
 
   test "exec/1 returns error on invalid type of input value" do
     [
+      [false],
       "false",
       %{true: false},
       {true, false},
@@ -43,7 +44,7 @@ defmodule OrTest do
       assert(
         Or.exec([true, invalid_value]) ==
           {:error,
-           "Error in LogicGates.Or.exec/1: Each input value must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
+           "Each element in the input list for LogicGates.Or.exec/1 must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
       )
     end)
   end
@@ -62,12 +63,12 @@ defmodule OrTest do
       assert(
         Or.exec([fn -> invalid_return_value end]) ==
           {:error,
-           "Error in LogicGates.Or.exec/1: When a function is passed as an input value, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
+           "When a function is passed to LogicGates.Or.exec/1 as an input value, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
       )
     end)
   end
 
-  test "exec/1 returns an error when an error is return from a function input value" do
+  test "exec/1 returns an error when an error is returned from a function input value" do
     assert(
       Or.exec([true, fn -> {:error, "Test error"} end]) ==
         {:error, "Test error"}

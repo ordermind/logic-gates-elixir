@@ -2,7 +2,10 @@ defmodule LogicGates.EvaluateInput do
   @moduledoc false
 
   # Iterates and evaluates the input and counts the true and false values
-  @spec count_values(list(boolean() | (function() -> {:ok, boolean()} | {:error, any()})), binary()) ::
+  @spec count_values(
+          list(boolean() | (function() -> {:ok, boolean()} | {:error, any()})),
+          binary()
+        ) ::
           {:ok, %{true: integer(), false: integer()}} | {:error, binary()}
   def count_values(input, caller_name, counter \\ %{true: 0, false: 0})
 
@@ -24,7 +27,8 @@ defmodule LogicGates.EvaluateInput do
       {:error, reason} when is_binary(reason) ->
         {:error, reason}
 
-      {:error, reason} -> {:error, inspect(reason)}
+      {:error, reason} ->
+        {:error, inspect(reason)}
 
       other ->
         {:error,
@@ -34,7 +38,7 @@ defmodule LogicGates.EvaluateInput do
 
   def count_values([head | _], caller_name, _) do
     {:error,
-     "Each input value to #{caller_name} must be either a function or a boolean. Current value: #{inspect(head)}"}
+     "Each element in the input list for #{caller_name} must be either a function or a boolean. Current value: #{inspect(head)}"}
   end
 
   # This is the final iteration where there are no more input values to evalute. There have been no errors so
