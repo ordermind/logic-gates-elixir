@@ -5,7 +5,7 @@ defmodule LogicGates.MixProject do
     [
       app: :logic_gates,
       name: "Logic Gates",
-      version: "0.6.0",
+      version: "0.7.0",
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
       description: description(),
