@@ -42,17 +42,17 @@ defmodule LogicGates.Or do
 
   def exec(input) when not is_list(input) do
     {:error,
-     "Error in LogicGates.Or.exec/1: The parameter to the function must be a list. Current parameter: #{inspect(input)}"}
+     "The parameter to LogicGates.Or.exec/1 must be a list. Current parameter: #{inspect(input)}"}
   end
 
   def exec(input) when length(input) < 1 do
-    {:error, "Error in LogicGates.Or.exec/1: An OR gate requires at least one input value."}
+    {:error, "LogicGates.Or.exec/1 requires the input list to contain at least one element."}
   end
 
   def exec(input) do
-    case EvaluateInput.count_values(input) do
+    case EvaluateInput.count_values(input, "LogicGates.Or.exec/1") do
       {:ok, counter} -> {:ok, counter.true > 0}
-      {:error, reason} -> {:error, "Error in LogicGates.Or.exec/1: #{reason}"}
+      {:error, reason} -> {:error, reason}
     end
   end
 end

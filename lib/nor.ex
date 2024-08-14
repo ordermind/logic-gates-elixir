@@ -45,7 +45,7 @@ defmodule LogicGates.Nor do
         {:ok, !output}
 
       {:error, reason} ->
-        {:error, reason |> String.replace("Or", "Nor") |> String.replace("OR", "NOR")}
+        {:error, reason |> String.replace("Or", "Nor")}
     end
   end
 end

@@ -18,7 +18,7 @@ defmodule AndTest do
       assert(
         And.exec(invalid_input) ==
           {:error,
-           "Error in LogicGates.And.exec/1: The parameter to the function must be a list. Current parameter: #{inspect(invalid_input)}"}
+           "The parameter to LogicGates.And.exec/1 must be a list. Current parameter: #{inspect(invalid_input)}"}
       )
     end)
   end
@@ -26,7 +26,7 @@ defmodule AndTest do
   test "exec/1 returns an error on empty list input" do
     assert(
       And.exec([]) ==
-        {:error, "Error in LogicGates.And.exec/1: An AND gate requires at least one input value."}
+        {:error, "LogicGates.And.exec/1 requires the input list to contain at least one element."}
     )
   end
 
@@ -43,7 +43,7 @@ defmodule AndTest do
       assert(
         And.exec([true, invalid_value]) ==
           {:error,
-           "Error in LogicGates.And.exec/1: Each input value must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
+           "Each input value to LogicGates.And.exec/1 must be either a function or a boolean. Current value: #{inspect(invalid_value)}"}
       )
     end)
   end
@@ -62,7 +62,7 @@ defmodule AndTest do
       assert(
         And.exec([fn -> invalid_return_value end]) ==
           {:error,
-           "Error in LogicGates.And.exec/1: When a function is passed as an input value, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
+           "When a function is passed to LogicGates.And.exec/1 as an input value, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(invalid_return_value)}"}
       )
     end)
   end
@@ -70,8 +70,12 @@ defmodule AndTest do
   test "exec/1 returns an error when an error is return from a function input value" do
     assert(
       And.exec([false, fn -> {:error, "Test error"} end]) ==
-        {:error,
-         "Error in LogicGates.And.exec/1: An error was returned by a function input value: \"Test error\""}
+        {:error, "Test error"}
+    )
+
+    assert(
+      And.exec([false, fn -> {:error, :test_error} end]) ==
+        {:error, ":test_error"}
     )
   end
 

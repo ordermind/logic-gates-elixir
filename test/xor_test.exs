@@ -77,8 +77,12 @@ defmodule XorTest do
   test "exec/1 returns an error when an error is return from a function input value" do
     assert(
       Xor.exec([true, fn -> {:error, "Test error"} end]) ==
-        {:error,
-         "Error in LogicGates.Xor.exec/1: An error was returned by a function input value: \"Test error\""}
+        {:error, "Test error"}
+    )
+
+    assert(
+      Xor.exec([false, fn -> {:error, :test_error} end]) ==
+        {:error, ":test_error"}
     )
   end
 

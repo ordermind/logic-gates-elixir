@@ -44,7 +44,7 @@ defmodule LogicGates.Nand do
         {:ok, !output}
 
       {:error, reason} ->
-        {:error, reason |> String.replace("And", "Nand") |> String.replace("AND", "NAND")}
+        {:error, reason |> String.replace("And", "Nand")}
     end
   end
 end

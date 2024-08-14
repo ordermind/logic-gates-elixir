@@ -70,8 +70,12 @@ defmodule OrTest do
   test "exec/1 returns an error when an error is return from a function input value" do
     assert(
       Or.exec([true, fn -> {:error, "Test error"} end]) ==
-        {:error,
-         "Error in LogicGates.Or.exec/1: An error was returned by a function input value: \"Test error\""}
+        {:error, "Test error"}
+    )
+
+    assert(
+      Or.exec([false, fn -> {:error, :test_error} end]) ==
+        {:error, ":test_error"}
     )
   end
 

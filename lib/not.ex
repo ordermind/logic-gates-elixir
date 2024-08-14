@@ -20,7 +20,6 @@ defmodule LogicGates.Not do
   @spec exec(
           boolean()
           | (function() -> {:ok, boolean()} | {:error, any()})
-          | list(boolean() | (function() -> {:ok, boolean()} | {:error, any()}))
         ) ::
           {:ok, boolean()} | {:error, binary()}
   def exec(input)
@@ -34,37 +33,19 @@ defmodule LogicGates.Not do
       {:ok, value} ->
         {:ok, !value}
 
-      {:error, reason} ->
-        {:error,
-         "Error in LogicGates.Not.exec/1: An error was returned by a function input value: #{inspect(reason)}"}
+        {:error, reason} when is_binary(reason) ->
+          {:error, reason}
+
+        {:error, reason} -> {:error, inspect(reason)}
 
       other ->
         {:error,
-         "Error in LogicGates.Not.exec/1: When a function is passed as an input value, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(other)}"}
-    end
-  end
-
-  def exec(input) when is_list(input) and length(input) != 1 do
-    {:error, "Error in LogicGates.Not.exec/1: An NOT gate requires exactly one input value."}
-  end
-
-  def exec([input]) do
-    case exec(input) do
-      {:ok, value} ->
-        {:ok, value}
-
-      {:error, reason} ->
-        {:error,
-         String.replace(
-           reason,
-           "The parameter to the function must be either a boolean, a function or a list with exactly one element. Current parameter: ",
-           "If a list is passed as a parameter, its single element must be either a boolean or a function. Current element: "
-         )}
+         "When a function is passed as a parameter to LogicGates.Not.exec/1, it must return a tuple consisting of either :ok and a boolean, or :error and a string. Returned value: #{inspect(other)}"}
     end
   end
 
   def exec(input) do
     {:error,
-     "Error in LogicGates.Not.exec/1: The parameter to the function must be either a boolean, a function or a list with exactly one element. Current parameter: #{inspect(input)}"}
+     "The parameter to LogicGates.Not.exec/1 must be either a boolean or a function. Current parameter: #{inspect(input)}"}
   end
 end

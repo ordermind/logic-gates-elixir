@@ -86,8 +86,12 @@ defmodule NotTest do
 
     assert(
       Not.exec([fn -> {:error, "Test error"} end]) ==
-        {:error,
-         "Error in LogicGates.Not.exec/1: An error was returned by a function input value: \"Test error\""}
+        {:error, "Test error"}
+    )
+
+    assert(
+      Not.exec([false, fn -> {:error, :test_error} end]) ==
+        {:error, ":test_error"}
     )
   end
 

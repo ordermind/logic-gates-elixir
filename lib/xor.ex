@@ -39,17 +39,17 @@ defmodule LogicGates.Xor do
 
   def exec(input) when not is_list(input) do
     {:error,
-     "Error in LogicGates.Xor.exec/1: The parameter to the function must be a list. Current parameter: #{inspect(input)}"}
+     "The parameter to LogicGates.Xor.exec/1 must be a list. Current parameter: #{inspect(input)}"}
   end
 
   def exec(input) when length(input) < 2 do
-    {:error, "Error in LogicGates.Xor.exec/1: An XOR gate requires at least two input values."}
+    {:error, "LogicGates.Xor.exec/1 requires the input list to contain at least two elements. Current parameter: #{inspect(input)}"}
   end
 
   def exec(input) do
-    case EvaluateInput.count_values(input) do
+    case EvaluateInput.count_values(input, "LogicGates.Xor.exec/1") do
       {:ok, counter} -> {:ok, Integer.is_odd(counter.true)}
-      {:error, reason} -> {:error, "Error in LogicGates.Xor.exec/1: #{reason}"}
+      {:error, reason} -> {:error, reason}
     end
   end
 end
